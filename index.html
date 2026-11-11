@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="Ok61AM3w4fzagm3DvNLJRg">
+<head data-page-node-id="zDDjtfwUHYqamnwmfyeDnj">
+<meta charset="UTF-8" data-page-node-id="DRyDYT0gws8dv5OLtnbCvU">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="z3uhlNoaU9ruEteYjYNvVJ">
+<title>发作性睡病 · 每颗星都是一段真实的故事</title>
+<link rel="stylesheet" href="style.css" data-page-node-id="9TCMGbTllhY7LCtWWjN5Fe">
+</head>
+<body data-page-node-id="MTYDY5QZpIq0jGYOKF3AUC">
+  <div class="grain" aria-hidden="true" data-page-node-id="SlbxXYoZIKCabZduWJLXeK"></div>
+
+  <main class="stage" data-page-node-id="bXP0diisHCZuypzmJ94m4E">
+    <!-- 左下角剪影（白天）：端坐。撒点禁区内的插画，与白天粒子同步消失。
+         img 换 div+CSS mask（2026-11-11）：剪影是纯单色，mask 后背景色可控——
+         悬停才能像拉环一样直接变 carolina 色，且点击可弹心里话 -->
+    <div id="figure-day" class="figure" role="button" aria-label="听听病友想说的话" data-page-node-id="SlbxXYoZIKCabZduWJLXeK"></div>
+    <!-- 白天画布：圆形粒子 -->
+    <canvas id="canopy" aria-label="白天的粒子" data-page-node-id="hChYY9UVGrHPDVT4vyR4kk"></canvas>
+  </main>
+
+  <!-- 百叶窗 + 拉绳：昼夜切换开关。平时藏一半在顶部，点拉环弹性降下（底部留白缝）；
+       白色叶片 3D 转出去：绕上边缘向后上翻没 → 隐身段换装变黑（轴心移下边缘）→
+       黑叶绕下边缘朝前上掀出（往上翻回来）→ 黑叶放大吞满面板区（白缝保持白色）→
+       星星浮现。夜里点拉环：星星渐隐 → 黑幕缩回黑叶 → 整圈翻回白叶 → 升走 → 白天恢复。 -->
+  <div id="blind" class="blind" aria-label="百叶窗拉绳" data-page-node-id="mGgeqFfxac0NCfuocZjnQn">
+    <div class="blind-swing" data-page-node-id="jQ432Jp5FO7SFVXUM3JH6Z">
+      <div class="blind-panel" data-page-node-id="f7GZoGliElWCOQ3jJFJGyC"></div>
+      <button id="pull" class="pull" aria-label="拉下百叶窗" data-page-node-id="EHeC4mwJg7LUgfS7zxjKMr">
+        <span class="pull-rope" data-page-node-id="9juJDASTIKuX45nVztJaUq"></span>
+        <span class="pull-ring" data-page-node-id="LDMoxuzOqoJcEKk2JzypqX"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 夜幕底色：独立层（z30），高度只到百叶窗底缘，底部白缝保持纸底白色。
+       黑叶吞满面板后由 .blind.dark 与之同色无缝交接（肉眼无感）；
+       必须独立于 #blind，否则夜画布要盖住它就得压过整个百叶窗，拉环会被挡住点不到 -->
+  <div id="night-bg" class="night-bg" data-page-node-id="lrqC3GL0mK1hG8zgPW5BFo"></div>
+
+  <!-- 底缝填充层：剪影正底下那条 12vh 缝恒定用百叶窗叶片同款米白填充
+       （昼夜两状态与百叶窗连成一体，切换零跳变；z1，纸底之上画布之下） -->
+  <div id="blind-foot" class="blind-foot">
+    <!-- 底缝文案（2026-11-10 用户需求）：正文统一字体、细、大、字距、靠左，
+         标题占浅色区约 1/2 高、位于上半部分；小字引导拉绳 -->
+    <div class="foot-copy">
+      <h1 class="foot-title">发作性睡病</h1>
+      <p class="foot-sub">拉下百叶窗，感受TA们的“昼夜变换”；按下人物，听听TA们的心里话</p>
+    </div>
+  </div>
+
+  <!-- 黑夜画布：发光星星（位置与白天粒子完全一致，颜色变浅色系） -->
+  <canvas id="canopy-night" aria-label="黑夜的星星" data-page-node-id="FFXaolFOsWKZQpbIAFWSVt"></canvas>
+
+  <!-- 左下角剪影（黑夜）：趴睡（白色版）。与星星同步浮现/渐隐，
+       放在夜画布之后（同 z31，DOM 顺序靠后盖在星星上）。div+mask 同白天 -->
+  <div id="figure-night" class="figure" role="button" aria-label="听听病友想说的话"></div>
+  <!-- Zzz 睡觉符号：贴趴睡剪影右上角，同一层（z31）、同一过渡，与趴睡/星星同呼吸（不可点） -->
+  <div id="figure-zzz" class="figure" aria-hidden="true"></div>
+
+  <div id="title-float" class="title-float" aria-hidden="true" data-page-node-id="wjeV4AIkBTrWInsS1E3w3D">
+    <strong id="tf-title" data-page-node-id="qEVMlb6C2S7je4Zklav6UA"></strong>
+    <span id="tf-sub" data-page-node-id="xx97CVZtUU0nyoxKdF8qr6"></span>
+  </div>
+
+  <!-- 人物心里话弹窗（2026-11-11）：点击剪影随机弹一句病友心里话。
+       无遮罩不变暗：whisper-catch 是全屏透明拦截层（禁点拉环/粒子/星星），
+       点它任意处=退出；弹窗本体在拦截层之上（z53）。样式与悬停小窗同规范：
+       --paper-hi 底、14px 连续圆角、无描边无阴影，尖角在左下指向人物 -->
+  <div id="whisper-catch" class="whisper-catch" hidden></div>
+  <div id="whisper" class="whisper" hidden role="dialog" aria-label="病友的心里话">
+    <p class="whisper-text"></p>
+  </div>
+
+  <div id="modal" class="modal" hidden data-page-node-id="FMKg0nUJtG6cHkHAmaSeXo">
+    <div class="modal-mask" data-close data-page-node-id="iYdrf2jfRhI4C9mamUJc4c"></div>
+    <article class="story-card" role="dialog" aria-modal="true" data-page-node-id="p8teqOSKDnzVy14ZRQxAw5">
+      <!-- 置顶板块（2026-11-10 用户需求）：标题+落款+分割线+叉叉固定在此，
+           正文滚动时永远不动；叉叉绝对定位上移，悬停小方形底色、点击直接退出 -->
+      <div class="story-top" data-page-node-id="8dHkJtgZBEABhSK5x0AEIC">
+        <button class="story-close" data-close aria-label="关闭" data-page-node-id="GHIN9oW4iZdyG7GPsQ1aQB">×</button>
+        <header class="story-head">
+          <h2 id="story-title" data-page-node-id="lKHFAmun1wKuA7hJyPPBZ4"></h2>
+          <p id="story-person" class="story-person" data-page-node-id="dwrk970xQvjslEfCCh9E6F"></p>
+        </header>
+        <hr class="story-rule" data-page-node-id="BYOU9ZXW2pDnKUnQuxUYo3">
+      </div>
+      <div id="story-scroll" class="story-scroll">
+        <p id="story-note" class="story-note" hidden data-page-node-id="iQr3ujseX7Ou62WqTsASEq"></p>
+        <div id="story-body" class="story-body" data-page-node-id="kkiyAuUDnAinloqfEf2ACQ"></div>
+        <footer id="story-source" class="story-source" data-page-node-id="MnK87li1zjuTRwvu49Jwl6"></footer>
+      </div>
+    </article>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="day-data.js"></script>
+  <script src="whispers.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
