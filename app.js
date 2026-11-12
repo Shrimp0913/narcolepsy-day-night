@@ -535,10 +535,9 @@
       blind.classList.add("lowered");            /* 1) 弹性降下 780ms */
       setTimeout(() => {
         canvas.style.opacity = "0";              /*    白天圆形粒子渐隐 700ms */
-        /* 端坐剪影不消失（2026-11-10 用户定稿）：翻转中叶片翻走、后方露出
-         * 纸底+端坐黑人，黑叶掀上再盖掉——「黑人物陪伴换幕」是设计的一部分；
-         * 直到完整黑背景落定（slats-off）才在黑幕后渐隐（夜幕 z30 恒盖 z1，
-         * 渐隐全程藏在黑色里，视觉零察觉） */
+        figDay.style.opacity = "0";              /*    端坐剪影与粒子同刻渐隐（2026-11-12 用户定稿：
+                                                    「黑人陪伴换幕」废弃——拉下百叶窗后他和粒子
+                                                    同步消失，翻转期间不出现任何人物） */
       }, 110);
       setTimeout(() => {
         mode = "night";                          /*    画布切夜（星星暂不可见） */
@@ -571,7 +570,6 @@
       setTimeout(() => {
         blind.classList.add("slats-off");        /* 6) 垫黑后一帧即揭幕（tDark+20）：叶片退场
                                                     露出全黑夜幕（接力交接恒黑） */
-        figDay.style.opacity = "0";              /*    完整黑背景落定：端坐剪影此刻才走（藏在黑幕下渐隐） */
       }, tDark + 20);
       setTimeout(() => {
         /* 7) 星星与白人从黑幕上完整浮现（2026-11-11 用户定稿）：起点与揭幕
@@ -612,9 +610,6 @@
         blind.classList.remove("dark");
         blind.classList.remove("circling");
         blind.classList.remove("collapse");
-        /* 端坐剪影同步渐显回来（镜像入夜「陪伴换幕」：反翻透出的纸底上
-         * 他渐显就位） */
-        figDay.style.opacity = "1";
         requestAnimationFrame(() => requestAnimationFrame(() => {
           /* 撤吞屏冻结必须与加反向动画同一帧：expanded 基态是缝隙全开的
            * 归位态，先撤再加会在反放起播前闪出米白条纹再跳回吞屏；同帧
@@ -635,7 +630,10 @@
           }, 670);
           setTimeout(() => {
             mode = "day";                           /* 白天画布恢复绘制 */
-            canvas.style.opacity = "1";             /* 白天圆形粒子浮现 700ms（端坐剪影已先行渐显） */
+            canvas.style.opacity = "1";             /* 白天圆形粒子浮现 700ms */
+            figDay.style.opacity = "1";             /* 端坐剪影与粒子同刻浮现（2026-11-12 用户定稿：
+                                                       与入夜对称——翻转期间无人物，随粒子一起回，
+                                                       渐显前段被升走的叶片盖住，露出时已半亮） */
           }, 730);
           setTimeout(() => {
             blindBusy = false;
