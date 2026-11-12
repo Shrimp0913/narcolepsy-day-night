@@ -544,6 +544,7 @@ body.figure-lock #figure-zzz {
   color: var(--cadet-gray);
   letter-spacing: .06em;
 }
+#tf-sub[hidden] { display: none; } /* 无落款整行隐藏（2026-11-12：小纸条/小树叶标识移除） */
 
 /* ---- 人物心里话弹窗（点击剪影随机一句，2026-11-11） ----
  * 与悬停小窗同一套设计规范：--paper-hi 底、14px 连续圆角（superellipse 渐进增强）、

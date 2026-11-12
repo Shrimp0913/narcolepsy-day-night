@@ -73,13 +73,14 @@
     $("story-title").textContent = d.title;
     const personEl = $("story-person");
     if (dayMode) {
-      /* 白天：日常没有出处和落款；小纸条给个身份 */
-      personEl.hidden = item.kind !== "leaf";
-      personEl.textContent = item.kind === "leaf" ? "一张小纸条" : "";
+      /* 白天：日常没有出处和落款（2026-11-12 用户定稿：小纸条/小树叶标识全站移除，
+       * 所有条目一律视为完整的正常故事，无 person 兜底文案） */
+      personEl.hidden = true;
+      personEl.textContent = "";
     } else {
-      personEl.hidden = false;
-      personEl.textContent =
-        item.person || item.sub || (item.kind === "leaf" ? "一片小树叶 · 未具名病友的片段" : "");
+      const p = item.person || item.sub || "";
+      personEl.hidden = !p;
+      personEl.textContent = p;
     }
 
     $("story-note").hidden = dayMode || !item.note;
@@ -749,9 +750,11 @@
       const it = anchor.item;
       const dayMode = mode === "day" && !!it.day;
       tfTitle.textContent = dayMode ? it.day.title : it.title;
-      tfSub.textContent = dayMode
-        ? (it.kind === "leaf" ? "一张小纸条" : "")
-        : (it.kind === "leaf" ? "一片小树叶" : it.person);
+      /* 落款：白天一律没有；黑夜只有挂了 person 的完整故事才有。
+       * 无落款时整行隐藏（2026-11-12 用户定稿：小纸条/小树叶标识全站移除） */
+      const sub = dayMode ? "" : (it.person || it.sub || "");
+      tfSub.textContent = sub;
+      tfSub.hidden = !sub;
       const r = canvasRect || canvas.getBoundingClientRect();
       const gap = 12;
       const h = tf.offsetHeight || 58;
