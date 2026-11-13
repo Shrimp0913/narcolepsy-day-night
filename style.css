@@ -492,7 +492,9 @@ body.figure-lock #figure-zzz {
 
 /* ---- 锚点粒子上的标题浮层 ----
  * 与详情弹窗同一套设计规范（2026-11-11 用户定稿）：无边框、无阴影、
- * 同一套连续曲率圆角（14px / superellipse 增强 16px）。
+ * 同一套外框圆角：固定 4px 普通圆角（2026-11-13 用户定稿：更方更锐利，
+ * 且跨浏览器角度一致——旧 corner-shape superellipse 只有最新 Chrome
+ * 支持，Safari/Firefox 回退成普通圆角，换个浏览器角度就变了，已废弃）。
  * 水平居中不再用 translate(-50%)——负半像素位移会让每帧重排的文字
  * 产生亚像素渲染抖动（行间距「颤抖」）；改由 JS 按整数 px 直接定位 */
 .title-float {
@@ -500,16 +502,13 @@ body.figure-lock #figure-zzz {
   z-index: 52;
   pointer-events: none;
   background: var(--paper-hi);
-  border-radius: 14px;       /* 与弹窗同圆角 */
+  border-radius: 4px;        /* 跨浏览器固定的方正外框角 */
   padding: 10px 16px 9px;
   opacity: 0;
   transform: translateY(6px) scale(.96);
   transition: opacity var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
   max-width: 260px;
   text-align: center;
-}
-@supports (corner-shape: superellipse(3)) {
-  .title-float { border-radius: 16px; corner-shape: superellipse(3); }
 }
 .title-float.show {
   opacity: 1;
@@ -547,7 +546,7 @@ body.figure-lock #figure-zzz {
 #tf-sub[hidden] { display: none; } /* 无落款整行隐藏（2026-11-12：小纸条/小树叶标识移除） */
 
 /* ---- 人物心里话弹窗（点击剪影随机一句，2026-11-11） ----
- * 与悬停小窗同一套设计规范：--paper-hi 底、14px 连续圆角（superellipse 渐进增强）、
+ * 与悬停小窗同一套设计规范：--paper-hi 底、固定 4px 普通圆角（跨浏览器一致），
  * 无边框无阴影；弹出规则同故事弹窗：scale(.96)→1 + var(--ease) 420ms 开关同曲线，
  * 无弹性无过冲，打开后大小不变。宽度随句子长短自适应（max-content）；
  * 字号同悬停小窗主字号（15px）但细字重。尖角与悬停小窗同款（9px 旋转方块），
@@ -562,17 +561,17 @@ body.figure-lock #figure-zzz {
   max-height: 50vh;
   overflow-y: auto;
   background: var(--paper-hi);
-  border-radius: 14px;
-  padding: 16px 20px;            /* 无叉（2026-11-12 用户定稿）：左右对称内边距 */
+  border-radius: 4px;          /* 固定 4px 普通圆角（2026-11-13 用户定稿：更方更锐利，
+                                  与 .title-float 同规范，跨浏览器角度一致——
+                                  旧 corner-shape superellipse 渐进增强已废弃，
+                                  换浏览器/换设备弧度不再变） */
+  padding: 16px 20px;          /* 无叉（2026-11-12 用户定稿）：左右对称内边距 */
   opacity: 0;
   transform: scale(.96);
   transform-origin: 12px calc(100% + 5px); /* 尖角处：从人物方向弹出 */
   transition: opacity var(--t-med) var(--ease),
               transform var(--t-med) var(--ease);
   pointer-events: none;
-}
-@supports (corner-shape: superellipse(3)) {
-  .whisper { border-radius: 16px; corner-shape: superellipse(3); }
 }
 .whisper.show {
   opacity: 1;
@@ -637,7 +636,9 @@ body.figure-lock #figure-zzz {
   overflow: hidden;          /* 滚动移到 .story-scroll：置顶板块才不受滚动影响 */
   background: var(--paper);  /* 2026-11-11 用户定稿：弹窗界面底色=白天页面背景色（悬停小窗仍用 --paper-hi） */
   border: none;              /* 用户定稿：边缘不加黑线（避免视觉模糊）、不加阴影 */
-  border-radius: 14px;       /* 苹果规范连续曲率：见下方 @supports 渐进增强 */
+  border-radius: 4px;        /* 固定 4px 普通圆角（2026-11-13 用户定稿：更方更锐利，
+                                全站弹窗统一，跨浏览器角度一致——旧 corner-shape
+                                superellipse 渐进增强已废弃，不再随浏览器分裂） */
   padding: 0;
   opacity: 0;
   transform: scale(.96);
@@ -648,11 +649,6 @@ body.figure-lock #figure-zzz {
    * origin 由 JS 动态设为悬停标题中心 */
   transition: opacity var(--t-med) var(--ease),
               transform var(--t-med) var(--ease);
-}
-/* 连续曲率圆角（superellipse≈苹果 squircle 的圆度 toned down）：
- * 新 Chrome 原生支持 corner-shape；旧浏览器自动降级为上方普通圆角 */
-@supports (corner-shape: superellipse(3)) {
-  .story-card { border-radius: 16px; corner-shape: superellipse(3); }
 }
 .modal.open .story-card {
   opacity: 1;
@@ -685,7 +681,7 @@ body.figure-lock #figure-zzz {
   width: 34px;
   height: 34px;
   border: none;
-  border-radius: 10px;       /* 与面板同语言的小方形（连续曲率同款） */
+  border-radius: 4px;        /* 与弹窗外框同规范（2026-11-13：固定 4px，跨浏览器一致） */
   background: transparent;
   color: var(--cadet-gray);
   font-size: 20px;
@@ -693,9 +689,6 @@ body.figure-lock #figure-zzz {
   cursor: pointer;
   z-index: 3;                /* 恒在置顶板块之上 */
   outline: none;             /* 点击后焦点轮廓（系统强调色橙框）同样不要 */
-}
-@supports (corner-shape: superellipse(3)) {
-  .story-close { corner-shape: superellipse(3); }
 }
 /* 用户定稿（2026-11-11）：叉叉不做任何悬停/选中效果——点击即关 */
 
