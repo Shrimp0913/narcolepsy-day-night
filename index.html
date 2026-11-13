@@ -4,6 +4,24 @@
 <meta charset="UTF-8" data-page-node-id="DRyDYT0gws8dv5OLtnbCvU">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="z3uhlNoaU9ruEteYjYNvVJ">
 <title>发作性睡病 · 每颗星都是一段真实的故事</title>
+<link rel="icon" type="image/png" id="favicon" href="assets/favicon-light.png">
+<script>
+/* 标签页图标随浏览器主题切换（2026-11-13，同 Shrimp's Alchemy 的做法）：
+ * 深色主题=白色 Zzz（favicon-dark），浅色主题=黑色 Zzz（favicon-light）。
+ * PNG 无法像 SVG 那样内嵌媒体查询，所以直接按 matchMedia 换 href——
+ * 刷新时按当前主题加载正确版本，系统切换主题时即时跟随，全浏览器一致 */
+(function () {
+  var link = document.getElementById("favicon");
+  if (!link) return;
+  var mql = window.matchMedia("(prefers-color-scheme: dark)");
+  var apply = function () {
+    link.href = mql.matches ? "assets/favicon-dark.png" : "assets/favicon-light.png";
+  };
+  if (mql.addEventListener) mql.addEventListener("change", apply);
+  else if (mql.addListener) mql.addListener(apply); /* 旧版 Safari 兜底 */
+  apply();
+})();
+</script>
 <link rel="stylesheet" href="style.css" data-page-node-id="9TCMGbTllhY7LCtWWjN5Fe">
 </head>
 <body data-page-node-id="MTYDY5QZpIq0jGYOKF3AUC">
